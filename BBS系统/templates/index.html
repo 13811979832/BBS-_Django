@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BBS新热榜-聚合每日热门、搞笑、有趣资讯</title>
+    <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.min.css">   <!--引入图标文件-->
+    <link rel="stylesheet" href="/static/css/common.css"/>
+    <style>
+        .hide{
+            display: none;
+        }
+        .right .title{
+            background-color: #4767b2;
+            color: #f4f4f4;
+            width: 300px;
+            height: 35px;
+            line-height: 35px;
+            text-align: center;
+            display: inline-block;
+            overflow: hidden;
+            margin-top: 50px;
+        }
+        .right .content{
+            display: inline-block;
+            height: 152px;
+            margin-top: 0;
+            width: 282px;
+            overflow: auto;   /*滚动条*/
+            padding: 1px;
+            margin-left: 20px;
+        }
+        .msg .text{
+            margin: -2px;
+            padding: 0;
+            margin-left: 1px;
+        }
+    </style>
+</head>
+<body>
+    <div class="head-box">
+
+        <div class="head-content">
+
+            <a href="#" class="logo"></a>
+
+            <div class="action-menu">
+
+                        <a href="#" class="tb active">全部</a>
+                        <a href="#" class="tb">42区</a>
+                        <a href="#" class="tb">段子</a>
+                        <a href="#" class="tb">图片</a>
+                        <a href="#" class="tb">挨踢1024</a>
+                        <a href="#" class="tb">你问我答</a>
+
+            </div>
+
+            <div class="key-search">
+
+                    <form action="/" method="post">
+
+                        <input type="text" class="search-txt">
+
+                        <a href="#" class="i" >
+                            <span class="ico"></span>
+                        </a>
+
+                    </form>
+
+            </div>
+
+            <div class="action-nav">
+                    <a href="#" class="register-btn">注册</a>
+                    <a href="/app01/login/" class="login-btn">登录</a>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="main-content-box">
+
+        <div class="main-content">
+
+            <div class="content-L">
+
+                <div class="top-area">
+
+                    <div class="child-nav">
+
+                        <a href="#"  class="hotbtn active" >最热</a>
+                        <a href="#"  class="newbtn"    >最新</a>
+                        <a href="#"  class="personbtn" >人类发布</a>
+
+                    </div>
+
+                    <div class="sort-nav">
+                        <a href="#"  class="sortbtn active" >即时排序</a>
+                        <a href="#"  class="newbtn" >24小时</a>
+                        <a href="#"  class="newbtn" >3天</a>
+                    </div>
+
+                    <a href="#" class="publish-btn">
+                        <span class="n2">+ &nbsp;&nbsp;发布</span>
+                    </a>
+
+                </div>
+
+                <div class="content-list">
+
+                    {% for item in data %}
+                        <div class="item">
+                            <div class="news-pic">
+                                  <img src="/static/images/news.jpg" alt="抽屉新热榜">
+                            </div>
+                            <div class="news-content">
+                                <div class="part1">
+                                    <div>
+                                        <a href="{{ item.url }}" class="show-content">
+                                        {{ item.title }}
+                                        </a>
+                                          </div>
+
+                                    <a class="show-content" target="_blank">
+                                        {{ item.summary }}
+                                    </a>
+                                    <div>
+                                        <span class="content-source">{{ item.url }}</span>
+                                        <span class="content-kind">{{ item.user}}</span>
+
+                                    </div>
+                                </div>
+
+                                <div class="part2">
+                                        <a href="#" class="recommend" title="推荐" onclick="Favor(this,{{ item.id }});">
+                                            <span class="hand-icon icon-recommend"></span>
+                                            <b>{{ item.favor_count }}</b>
+                                        </a>
+
+
+                                        <a href="javascript:;" class="discuss" onclick="Reply(this,{{ item.id }});">
+                                            <span class="hand-icon icon-discuss"></span>
+                                            <b>{{ item.reply_count }}</b>
+                                        </a>
+
+                                        <a href="javascript:;" class="collect" title="加入私藏">
+                                            <span class="hand-icon icon-collect"></span>
+                                            <b>私藏</b>
+                                        </a>
+
+
+                                        <a href="#" class="user-a">
+                                            <span>
+                                                <img src="/static/images/13.png">
+                                            </span>
+                                            <b>乱太郎</b>
+                                        </a>
+
+                                    <span class="left time-into">
+                                        <a class="time-a" href="#" target="_blank">
+                                            <b>{{ item.create_date|date:"Y-m-d H:i:s" }}</b>
+                                        </a>
+                                        <i>入热榜</i>
+                                    </span>
+
+                                    <span class="share-site-to">
+                                        <i>分享到</i>
+                                        <span class="share-icon">
+                                            <a class="icon-sina"    title="分享到新浪微博" href="#" ></a>
+                                            <a class="icon-douban"  title="分享到豆瓣"    href="#" ></a>
+                                            <a class="icon-qqzone"  title="分享到QQ空间"  href="#" ></a>
+                                            <a class="icon-tenxun"  title="分享到腾讯微博" href="#" ></a>
+                                            <a class="icon-renren"  title="分享到人人网"   href="#" ></a>
+                                        </span>
+                                    </span>
+
+                                </div>
+                                <div has-input="0" class="part4 hide" style="background-color: aliceblue;">
+                                    <div class="replys"></div>
+                                    <div class="input">
+                                        <label>请输入回复内容:</label>
+                                        <textarea></textarea>
+                                        <input type="button" value="提交" onclick="Submit(this,{{ item.id }});"/>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+                </div>
+
+                <div class="page-area">
+                     <ul>
+                         <li><span class="current_page">1</span></li>
+                         <li><a href="#" class="page-a">2</a></li>
+                         <li><a href="#" class="page-a">3</a></li>
+                         <li><a href="#" class="page-a">4</a></li>
+                         <li><a href="#" class="page-a">5</a></li>
+                         <li><a href="#" class="page-a">6</a></li>
+                         <li><a href="#" class="page-a">7</a></li>
+                         <li><a href="#" class="page-a">8</a></li>
+                         <li><a href="#" class="page-a">9</a></li>
+                         <li><a href="#" class="page-a">10</a></li>
+                         <li><a href="#" class="page-a page-next">下一页</a></li>
+                     </ul>
+                </div>
+
+            </div>
+            <div class="right chat">
+                <div class="title">
+                    新热榜
+                </div>
+                <div id="chatpool" class="content">
+
+                </div>
+                <div class="bottom clearfix">
+                    <span class="left msg">
+                        <textarea id="message" class="text"></textarea>
+                    </span>
+                    <span class="left submit">
+                        <input type="button" class="btn" onclick="SendMsg();" value="发布"/>
+                    </span>
+
+                </div>
+            </div>
+
+            <div class="content-R"></div>
+
+            <div class="footer-box">
+            <div class="foot-nav">
+                <a href="#" target="_blank">关于我们</a>
+                <span>|</span>
+                <a href="#" target="_blank">联系我们</a>
+                <span>|</span>
+                <a href="#" target="_blank">服务条款</a>
+                <span>|</span>
+                <a href="#" target="_blank">隐私政策</a>
+                <span>|</span>
+                <a href="#" target="_blank">抽屉新热榜工具</a>
+                <span>|</span>
+                <a href="#" target="_blank">下载客户端</a>
+                <span>|</span>
+                <a href="#" target="_blank">意见与反馈</a>
+                <span>|</span>
+                <a href="#" target="_blank">友情链接</a>
+                <span>|</span>
+                <a href="#" target="_blank">公告</a>
+            <a href="#"  style="margin-left:0;vertical-align:-2px;">
+                <img src="/static/images/ct_rss.gif" width="36" height="14">
+            </a>
+            </div>
+
+            <div class="foot-nav2">
+                <a target="_blank" href="#">
+                    <img class="foot_e" src="/static/images/footer1.gif" width="36" height="14">
+                </a>
+                <span class="foot_d">旗下站点</span>
+                <span class="foot_a">©2016chouti.com</span>
+                <a target="_blank" href="#" class="foot_b">京ICP备09053974号-3 京公网安备 110102004562</a>
+                <div style="margin-top:6px;">版权所有：北京格致璞科技有限公司</div>
+
+            </div>
+        </div>
+
+        </div>
+
+    </div>
+
+    <!-- 遮罩层开始 -->
+    <div id="shade" class="shade hide"></div>
+    <!-- 遮罩层结束 -->
+    <!-- 加载层开始 -->
+    <div id="loading" class="loading hide"></div>
+    <!-- 加载层结束 -->
+
+    <script src="/static/jquery/jquery-3.2.1.js"></script>
+    <script type="text/javascript">
+        function Favor(doc,id){
+            //后台数据点赞+1
+            $.ajax({
+                url:'/app01/addfavor/',
+                data:{nid:id},
+                type:'POST',
+                success:function(callback){
+                    var obj = jQuery.parseJSON(callback);
+                    if(obj.status=1){
+
+                        temp = "<span class='hand-icon icon-recommend'></span><b>" + obj.data + "</b>";
+                        $(doc).html(temp);
+                    }else{
+                        alert(obj.message);
+                    }
+                }
+            });
+        }
+        function Reply(doc,id){
+            //数据库取评论记录
+            $.ajax({
+                url:'/app01/getreply/',
+                data:{nid:id},
+                type:'POST',
+                success:function(callback){
+                    var obj = jQuery.parseJSON(callback);  //反序列化，jQuery.parseJSON()函数用于将格式完好的JSON字符串转为与之对应的JavaScript对象。
+                    $(doc).parent().next().find('.replys').first().empty();
+                    $.each(obj,function(k,v){
+                        temp = "<div>"+v.user__username+':'+v.content+'    -----'+v.create_date+"</div>";
+                        $(doc).parent().next().find('.replys').first().append(temp);
+                    })
+                }
+
+            });
+            $(doc).parent().next().toggleClass('hide');
+
+        }
+        function Submit(doc,id) {
+            var value = $(doc).prev().val();    //上一个标签的内容
+            $(doc).prev().val('');             //提交完回复信息，输入框置空
+            $("#shade,loading").removeClass('hide');
+            $.ajax({
+                url:'/app01/submitreply/',
+                data:{nid:id, data:value},
+                type:'POST',
+                success:function(callback){
+                    console.log(callback);
+                    callback = jQuery.parseJSON(callback);
+                    if(callback.status==1){
+                    //把数据append的到回复列表
+                        temp = "<div>"+callback.data.user__username+':'+callback.data.content+'    -----'+callback.data.create_date+"</div>";
+                        $(doc).parent().prev().append(temp);
+
+                        count = '<span class="hand-icon icon-discuss"></span>'+callback.data.reply_count;
+                        $(doc).parent().parent().prev().find('.discuss').html(count)
+                    }else{
+                        alert("操作失败")
+                    }
+                    $("#shade,loading").addClass('hide');
+
+                }
+            })
+        }
+        function SendMsg(doc,id){
+            var value = $('#message').val();
+            $('#message').val('');             //提交完回复信息，输入框置空
+            $.ajax({
+                url:"/app01/submitchat/",
+                data:{data:value},
+                type:"POST",
+                success:function(callback){
+                    console.log(callback);
+                    callback = jQuery.parseJSON(callback);
+                    if(callback.status==1){
+                        var tempalte = "<div><div>"+callback.data.username+  "   "+callback.data.create_date+"</div><div>"+value+"</div></div>";
+                        $('#chatpool').append(tempalte)
+                        window.last_id = callback.data.id;
+                        var height = document.getElementById('chatpool').scrollHeight;
+                        $('#chatpool').scrollTop(height)
+                    }else{
+                        alert("请求异常")
+                    }
+
+                }
+            });
+        }
+        //定时器一直执行,刷新
+        setInterval('going()',1000);
+        window.is_first = true;
+        function going(){
+            if(window.is_first){
+                $.ajax({
+                url:'/app01/getchart/',
+                type:'POST',
+                success:function(callback){
+                    //console.log(callback);
+                    callback = jQuery.parseJSON(callback);
+                    window.last_id = callback[0].id;
+                    console.log(window.last_id);
+                    callback = callback.reverse();          //时间翻转为正序
+                    $.each(callback,function(k,v){   //for循环
+                        var tempalte = "<div><div>"+v.user__username+  "   "+v.create_date+"</div><div>"+v.content+"</div></div>";
+                        $('#chatpool').append(tempalte)
+                    });
+                    window.is_first = false;
+                    //滚动条置低
+                    var height = document.getElementById('chatpool').scrollHeight;
+                    console.log(height);
+                    $('#chatpool').scrollTop(height)
+                }
+            });
+            }else{
+                $.ajax({
+                    url:'/app01/getchart2/',
+                    data:{lastid:window.last_id},
+                    type:'POST',
+                    success:function(callback){
+                        console.log(callback);
+                        callback = jQuery.parseJSON(callback);
+                        if(callback.length>0){
+                            window.last_id = callback[callback.length-1].id;
+                            console.log(window.last_id);
+                            $.each(callback,function(k,v){
+                                var tempalte = "<div><div>" + v.user__username + "   " + v.create_date + "</div><div>" + v.content + "</div></div>";
+                                $('#chatpool').append(tempalte)
+                            });
+                        }
+                        //滚动条置低
+                        var height = document.getElementById('chatpool').scrollHeight;
+                        $('#chatpool').scrollTop(height)
+                    }
+                });
+            }
+
+        }
+
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

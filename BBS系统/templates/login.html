@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+</head>
+<body>
+    <form action="/app01/login/" method="POST">
+        <div>
+            <input name="username" placeholder="用户名"/>
+        </div>
+        <div>
+            <input name="password" placeholder="密码"/>
+        </div>
+        <div style="color: red; font-size: 10px">{{ error }}</div>
+        <div>
+            <input type="submit" value="登录"/> <label style="color:red;">{{ status }}</label>
+        </div>
+    </form>
+</body>
+</html>
